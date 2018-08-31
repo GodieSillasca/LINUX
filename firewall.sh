@@ -29,7 +29,7 @@ if [ $(whoami) != "root" ];#Esta parte aún no funciona :/
     else
       if [ $(grep -c $memoria $listanegra) -ne 0 ];
        then
-        #Por el contrario, aquí se tendrá que describir qué pasará cuando se encuentre en la blacklist
+        echo "La memoria está vetada, sale bai"
         exit 0;
       fi
 fi
