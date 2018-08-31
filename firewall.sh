@@ -11,7 +11,7 @@
 listanegra=/bin/listanegra.txt #Variable que almacena la lista negra
 listablanca=/bin/listablanca.txt #Variable que almacena la whitelist
 usuario=$(whoami) #Define como variable al usuario mismo
-memoria= #Definir como variable la memoria USB conectada, tomando como referencia su número de serie para identificarla (pendiente...)
+memoria= $(dmesg | grep -i serialnumber | tail -n 1 | gawk '{print $NF}' ) #Define como variable la memoria USB conectada, tomando como referencia su número de serie para identificarla
 echo "$usuario"
 echo "Identifiquese como root antes de usar la USB\nSi falla su autenticación de usuario, /media/ continuará bloqueado hasta que\nsu administrador acuda e intente conectar la USB."
 if [ $(whoami) != "root" ];#Esta parte aún no funciona :/
