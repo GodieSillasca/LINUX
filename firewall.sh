@@ -7,7 +7,7 @@
 #está pensado bajo la suposición de que para proteger la computadora /media/ 
 #carece de permisos para usuarios convencionales (700) y además el automontaje
 #está desactivado (aunque se pueda montar fácilmente con el entorno gráfico 
-#de GNOME, es un detalle que falta solucionar.
+#de GNOME, es un detalle que falta solucionar).
 listanegra=/bin/listanegra.txt #Variable que almacena la lista negra
 listablanca=/bin/listablanca.txt #Variable que almacena la whitelist
 usuario=$(whoami) #Define como variable al usuario mismo
@@ -18,7 +18,13 @@ if [ $(whoami) != "root" ];#Esta parte aún no funciona :/
   then
     if [ $(grep -c $memoria $listablanca) -ne 0 ];#Se verifica si la memoria ya está en alguna lista (en este caso, la lista blanca)
      then
-      #En esta parte del ciclo se describirá qué debe suceder si la USB conectada ya está en la whitelist
+       echo "¡La memoria ya posee una configuración!.Usa tu USB y teclea\nlo que quieras cuando quieras desmontarla y salir"
+      sudo chmod 755 /media
+      sudo mount -t vfat /dev/sdb1 /mnt/
+      read salida
+      sudo umount /dev/sdb1
+      sudo chmod 700 /media
+      exit 0;
     fi
     else
       if [ $(grep -c $memoria $listanegra) -ne 0 ];
