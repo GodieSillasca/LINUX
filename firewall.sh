@@ -14,7 +14,7 @@ usuario=$(whoami) #Define como variable al usuario mismo
 memoria= $(dmesg | grep -i serialnumber | tail -n 1 | gawk '{print $NF}' ) #Define como variable la memoria USB conectada, tomando como referencia su número de serie para identificarla
 echo "$usuario"
 echo "Identifiquese como root antes de usar la USB\nSi falla su autenticación de usuario, /media/ continuará bloqueado hasta que\nsu administrador acuda e intente conectar la USB."
-if [ $(whoami) != "root" ];#Esta parte aún no funciona :/
+if [ $(whoami) = "root" ];#Esta parte aún no funciona :/
   then
     if [ $(grep -c $memoria $listablanca) -ne 0 ];#Se verifica si la memoria ya está en alguna lista (en este caso, la lista blanca)
      then
