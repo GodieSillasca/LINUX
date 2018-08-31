@@ -25,13 +25,13 @@ if [ $(whoami) != "root" ];#Esta parte aún no funciona :/
       sudo umount /dev/sdb1
       sudo chmod 700 /media
       exit 0;
-    fi
     else
       if [ $(grep -c $memoria $listanegra) -ne 0 ];
        then
         echo "La memoria está vetada, sale bai"
         exit 0;
       fi
+    fi
 fi
 
 if [ $(whoami) != "root" ]; #A partir de aquí, el código se ejecuta si la USB es una unidad o reconocida
