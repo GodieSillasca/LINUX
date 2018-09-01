@@ -64,7 +64,8 @@ if [ $(whoami) != "root" ]; #A partir de aquí, el código se ejecuta si la USB 
 	    sudo chmod 700 /media
             exit 0;;
           2)
-            #la idea es mencionar un mensaje de salida e ignorar el dispositivo conectado
+            echo "Adiós!"
+            exit 0;;
           *) 
             echo "Presiona 1 o 2";;
         esac
