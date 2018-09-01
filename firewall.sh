@@ -46,6 +46,10 @@ if [ $(whoami) != "root" ]; #A partir de aquí, el código se ejecuta si la USB 
         echo "Utiliza tu USB, cuando termines teclea lo que quieras para desmontarla"
         echo $memoria >> $listablanca #Añade la id de USB a listablanca.txt
         sudo chmod 755 /media
+	sudo mount -t vfat /dev/sdb1 /mnt/
+        read salida
+        sudo umount /dev/sdb1
+        sudo chmod 700 /media
         exit 0;
       elif [ $eleccion = no ];then
         echo "Presiona 1 para añadir el dispositivo a una lista negra"
