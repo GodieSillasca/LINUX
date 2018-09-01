@@ -12,6 +12,13 @@ listanegra=/bin/listanegra.txt #Variable que almacena la lista negra
 listablanca=/bin/listablanca.txt #Variable que almacena la whitelist
 usuario=$(whoami) #Define como variable al usuario mismo
 memoria= $(dmesg | grep -i serialnumber | tail -n 1 | gawk '{print $NF}' ) #Define como variable la memoria USB conectada, tomando como referencia su número de serie para identificarla
+funcion () { 
+	#Esta función es para atrapar las señales de salida y que no se burlen los permisos.
+	echo "No huyas,cobarde, tus permisos están bloqueados ${FUNCNAME} ${0}"
+	sudo chmod 700 /media
+	#exit
+}
+
 echo "$usuario"
 echo "Identifiquese como root antes de usar la USB\nSi falla su autenticación de usuario, /media/ continuará bloqueado hasta que\nsu administrador acuda e intente conectar la USB."
 if [ $(whoami) = "root" ];#Esta parte aún no funciona :/
@@ -21,6 +28,7 @@ if [ $(whoami) = "root" ];#Esta parte aún no funciona :/
        echo "¡La memoria ya posee una configuración!.Usa tu USB y teclea\nlo que quieras cuando quieras desmontarla y salir"
       sudo chmod 755 /media
       sudo mount -t vfat /dev/sdb1 /mnt/
+      trap "funcion" INT QUIT TSTP
       read salida
       sudo umount /dev/sdb1
       sudo chmod 700 /media
@@ -39,6 +47,7 @@ if [ $(whoami) != "root" ]; #A partir de aquí, el código se ejecuta si la USB 
     echo "Has fallado en la autenticación. Ejecuta este script con permisos de superusuario para usar tu USB"
   else
     echo "¿Conoces la USB que conectaste o al menos confías en ella? (si/no)"
+    trap "funcion" INT QUIT TSTP
     read eleccion
     if [ $eleccion = si ];
       then
@@ -47,6 +56,7 @@ if [ $(whoami) != "root" ]; #A partir de aquí, el código se ejecuta si la USB 
         echo $memoria >> $listablanca #Añade la id de USB a listablanca.txt
         sudo chmod 755 /media
 	sudo mount -t vfat /dev/sdb1 /mnt/
+	trap "funcion" INT QUIT TSTP
         read salida
         sudo umount /dev/sdb1
         sudo chmod 700 /media
@@ -55,6 +65,7 @@ if [ $(whoami) != "root" ]; #A partir de aquí, el código se ejecuta si la USB 
         echo "Presiona 1 para añadir el dispositivo a una lista negra"
         echo "Presiona 2 para ignorar el dispositivo (esta opción mantendrá"
         echo "/media/ sin permisos y no montará la USB)"
+	trap "funcion" INT QUIT TSTP
         read adiosohastapronto #La variable se llama así porque dependiendo de su valor, la memoria será vetada permanentemente o sólo ignorada.
         case $adiosohastapronto in
           1)
