@@ -61,6 +61,8 @@ if [ $(whoami) != "root" ]; #A partir de aquí, el código se ejecuta si la USB 
             echo "El dispositivo se añadió a la lista negra.\nLos permisos permanecen sólo para el administrador."
             sudo chmod 755 /media
             echo $memoria >> $listanegra #Añade la id de USB a listanegra.txt
+	    sudo chmod 700 /media
+            exit 0;;
           2)
             #la idea es mencionar un mensaje de salida e ignorar el dispositivo conectado
           *) 
