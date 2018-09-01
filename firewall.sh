@@ -43,7 +43,9 @@ if [ $(whoami) != "root" ]; #A partir de aquí, el código se ejecuta si la USB 
     if [ $eleccion = si ];
       then
         echo "Tu dispositivo será añadido a la lista blanca."
-        #Aquí básicamente haremos que el dispositivo sea añadido a la whitelist, lo montaremos y permitiremos al usuario que la use
+        echo "Utiliza tu USB, cuando termines teclea lo que quieras para desmontarla"
+        echo $memoria >> $listablanca #Añade la id de USB a listablanca.txt
+        sudo chmod 755 /media
         exit 0;
       elif [ $eleccion = no ];then
         echo "Presiona 1 para añadir el dispositivo a una lista negra"
