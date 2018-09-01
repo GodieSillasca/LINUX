@@ -1,5 +1,8 @@
 #!/bin/bash
 # -*- ENCODING: UTF-8 -*-
+#Se intentó automatizar el script con la siguiente regla udev: 
+#ACTION==\"add"\, ATTRS{idVendor}==\" **** \", ATTRS{idProduct}==\" **** \", RUN+="Path del ejecutable"
+#Sin embago la regla no provocó la ejecución de nuestro script automáticamente
 #Este script debe ejecutarse cuando se conecta una nueva usb al sistema.
 #Para ello, debe ejecutar como superusuario (sudo sh script.sh)
 #Programa hecho por Casillas Muñoz, D.A. y por Solana Mejía, H.A.
