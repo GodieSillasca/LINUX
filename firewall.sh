@@ -14,19 +14,18 @@
 listanegra=/bin/listanegra.txt #Variable que almacena la lista negra
 listablanca=/bin/listablanca.txt #Variable que almacena la whitelist
 usuario=$(whoami) #Define como variable al usuario mismo
-memoria= $(dmesg | grep -i serialnumber | tail -n 1 | gawk '{print $NF}' ) #Define como variable la memoria USB conectada, tomando como referencia su número de serie para identificarla
+memoria=$(dmesg | grep -i serialnumber | tail -n 1 | gawk '{print $NF}' ) #Define como variable la memoria USB conectada, tomando como referencia su número de serie para identificarla
 funcion () { 
 	#Esta función es para atrapar las señales de salida y que no se burlen los permisos.
 	echo "No huyas,cobarde, tus permisos están bloqueados ${FUNCNAME} ${0}"
 	sudo chmod 700 /media
-	#exit
+	exit
 }
-
-echo "$usuario"
+#echo "$usuario"
 echo "Identifiquese como root antes de usar la USB\nSi falla su autenticación de usuario, /media/ continuará bloqueado hasta que\nsu administrador acuda e intente conectar la USB."
-if [ $(whoami) = "root" ];#Esta parte sí funciona!!!, todo el código funciona.
+if [ $(whoami) = "root" ]; #Esta parte sí funciona!!!, todo el código funciona.
   then
-    if [ $(grep -c $memoria $listablanca) -ne 0 ];#Se verifica si la memoria ya está en alguna lista (en este caso, la lista blanca)
+    if [ $(grep -c $memoria $listablanca) -ne 0 ]; #Se verifica si la memoria ya está en alguna lista (en este caso, la lista blanca)
      then
        echo "¡La memoria ya posee una configuración!.Usa tu USB y teclea\nlo que quieras cuando quieras desmontarla y salir"
       sudo chmod 755 /media
@@ -45,7 +44,7 @@ if [ $(whoami) = "root" ];#Esta parte sí funciona!!!, todo el código funciona.
     fi
 fi
 
-if [ $(whoami) != "root" ]; #A partir de aquí, el código se ejecuta si la USB es una unidad o reconocida
+if [ $(whoami) != "root" ]; #A partir de aquí, el código se ejecuta si la USB es una unidad no reconocida
   then
     echo "Has fallado en la autenticación. Ejecuta este script con permisos de superusuario para usar tu USB"
   else
